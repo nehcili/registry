@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Internal Tracking — Chen Baby</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="internal">
+
+  <!-- Password Gate -->
+  <div id="gate-overlay" class="gate-overlay">
+    <div class="gate-box">
+      <div class="gate-icon">🔒</div>
+      <h2>Internal Tracking</h2>
+      <p>Enter the password to continue</p>
+      <input type="password" id="gate-password" class="gate-input" placeholder="Password" autocomplete="off">
+      <button id="gate-btn" class="gate-btn">Unlock →</button>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <h1>📋 All Items</h1>
+    <p class="subtitle">Full tracking view — registry &amp; non-registry items</p>
+    <div class="heart-divider">♡ ♡ ♡</div>
+  </header>
+
+  <div id="offline-banner" class="offline-banner">Live counts unavailable — check your connection</div>
+
+  <div class="page-wrap">
+    <nav id="sidebar-nav" class="sidebar" aria-label="Section navigation">
+      <!-- Rendered by app.js -->
+    </nav>
+
+    <main id="main-content">
+      <!-- Rendered by app.js after password gate -->
+    </main>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <!-- App -->
+  <script src="firebase-config.js"></script>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

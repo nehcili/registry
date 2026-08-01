@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chen Baby's Registry</title>
+  <meta name="description" content="Baby registry for Chen Baby — thank you for helping us prepare!">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="public">
+
+  <header class="site-header">
+    <h1>Chen Baby's Registry</h1>
+    <p class="subtitle">Thank you for helping us welcome our little one ♡</p>
+    <p class="subtitle">Click "I'll help" on anything you'd like to contribute —<br>you can always change your mind later.</p>
+    <div class="heart-divider">♡ ♡ ♡</div>
+  </header>
+
+  <div id="offline-banner" class="offline-banner">Live counts unavailable — check your connection</div>
+
+  <div class="page-wrap">
+    <nav id="sidebar-nav" class="sidebar" aria-label="Section navigation">
+      <!-- Rendered by app.js -->
+    </nav>
+
+    <main id="main-content">
+      <!-- Rendered by app.js -->
+    </main>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <!-- App -->
+  <script src="firebase-config.js"></script>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
