@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Life and Knowledge — Sunday School</title>
+<style>
+  :root {
+    --bg: #FDFBF7;
+    --text: #2D2418;
+    --accent: #C4A35A;
+    --sage: #7A9B8C;
+    --ai-bg: #F5F0E8;
+    --text-light: #5C4E3A;
+    --rule: #E0D8C8;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Georgia", "Times New Roman", serif;
+    font-size: clamp(16px, 2.2vh, 24px);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  main {
+    height: 100vh;
+    overflow-y: auto;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+  }
+
+  /* Each screen */
+  .screen {
+    min-height: 100vh;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 8vh 12vw;
+    position: relative;
+  }
+
+  .screen-inner {
+    max-width: 820px;
+    width: 100%;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .screen.visible .screen-inner {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── Title Screen ── */
+  #title-screen {
+    text-align: center;
+  }
+
+  #title-screen h1 {
+    font-size: clamp(2.5rem, 7vh, 5rem);
+    font-weight: normal;
+    letter-spacing: 0.04em;
+    color: var(--text);
+    margin-bottom: 1.5rem;
+  }
+
+  #title-screen .chapter-num {
+    font-size: clamp(1rem, 2.5vh, 1.4rem);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--sage);
+    margin-bottom: 2rem;
+  }
+
+  #title-screen .epigraph {
+    font-style: italic;
+    color: var(--accent);
+    font-size: clamp(1rem, 2.5vh, 1.3rem);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 2rem 0;
+    margin-top: 3rem;
+    line-height: 1.7;
+  }
+
+  #title-screen .epigraph cite {
+    display: block;
+    margin-top: 0.75rem;
+    font-size: 0.85em;
+    font-style: normal;
+    color: var(--sage);
+    letter-spacing: 0.06em;
+  }
+
+  /* ── Chapter Screens ── */
+  .chapter-screen .screen-inner {
+    font-size: clamp(1.05rem, 2.8vh, 1.5rem);
+    line-height: 1.75;
+  }
+
+  .chapter-screen .screen-inner p {
+    margin-bottom: 1.5em;
+  }
+
+  .chapter-screen .screen-inner p:last-child {
+    margin-bottom: 0;
+  }
+
+  .chapter-screen .bible-ref {
+    color: var(--sage);
+    font-style: italic;
+  }
+
+  /* ── AI Screen ── */
+  .ai-screen {
+    background: var(--ai-bg);
+  }
+
+  .ai-screen .prompt-label {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--sage);
+    margin-bottom: 0.75rem;
+  }
+
+  .ai-screen .prompt-text {
+    font-weight: bold;
+    color: var(--text);
+    margin-bottom: 2.5rem;
+    font-size: clamp(1.1rem, 3vh, 1.4rem);
+  }
+
+  .ai-screen .ai-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--sage);
+    margin-bottom: 1rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .ai-screen .ai-response {
+    color: var(--text-light);
+    font-style: italic;
+  }
+
+  .ai-screen .ai-response p {
+    margin-bottom: 0.75em;
+  }
+
+  /* ── Take Home Screen ── */
+  .takehome-screen .speaker-label {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--sage);
+    margin-bottom: 0.5rem;
+  }
+
+  .takehome-screen .highlight {
+    font-weight: bold;
+    color: var(--accent);
+    font-size: clamp(1.2rem, 3.2vh, 1.6rem);
+    margin: 1.5rem 0;
+    line-height: 1.6;
+  }
+
+  .takehome-screen .aside-section {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+    font-size: 0.9em;
+    color: var(--text-light);
+  }
+
+  .takehome-screen .aside-tag {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--sage);
+    margin-bottom: 0.75rem;
+  }
+
+  .takehome-screen .aside-section .ai-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--sage);
+    margin-top: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .takehome-screen .aside-section .ai-response {
+    font-style: italic;
+    color: var(--text-light);
+  }
+
+  /* ── Question Screens ── */
+  .question-screen .q-num {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--sage);
+    margin-bottom: 1rem;
+  }
+
+  .question-screen h2 {
+    font-size: clamp(1.2rem, 3.4vh, 1.8rem);
+    font-weight: normal;
+    line-height: 1.5;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+
+  .question-screen .q-body {
+    color: var(--text);
+    line-height: 1.7;
+    margin-bottom: 0.5rem;
+  }
+
+  .question-screen .q-body ul {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 0.5rem;
+  }
+
+  .question-screen .q-body ul li {
+    padding-left: 1.5em;
+    position: relative;
+    margin-bottom: 0.4em;
+  }
+
+  .question-screen .q-body ul li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  .question-screen .quote-block {
+    margin-top: 2.5rem;
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--rule);
+    font-style: italic;
+    color: var(--accent);
+    font-size: 0.9em;
+    line-height: 1.6;
+    white-space: pre-line;
+  }
+
+  /* ── Navigation Dots ── */
+  .nav-dots {
+    position: fixed;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 100;
+  }
+
+  .nav-dots .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--rule);
+    transition: background 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+  }
+
+  .nav-dots .dot.active {
+    background: var(--accent);
+    transform: scale(1.5);
+  }
+
+  /* ── Section divider line ── */
+  .screen-divider {
+    position: absolute;
+    bottom: 0;
+    left: 12vw;
+    right: 12vw;
+    height: 1px;
+    background: var(--rule);
+    opacity: 0.4;
+  }
+
+  /* ── Subtle page number ── */
+  .page-hint {
+    position: absolute;
+    bottom: 2rem;
+    right: 4rem;
+    font-size: 0.7rem;
+    color: var(--rule);
+    opacity: 0.6;
+  }
+
+</style>
+</head>
+<body>
+
+<main id="scroll-container">
+
+  <!-- ═══════════ SCREEN 1: Title ═══════════ -->
+  <section class="screen visible" id="title-screen" data-index="0">
+    <div class="screen-inner">
+      <div class="chapter-num">Chapter XII</div>
+      <h1>Life and Knowledge</h1>
+      <div class="epigraph">
+        "And out of the ground made the Lord God to grow the tree of life in the midst of the garden,
+        and the tree of knowledge of good and evil."
+        <cite>— Genesis 2:9</cite>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ SCREEN 2: Two Ways of Knowing ═══════════ -->
+  <section class="screen chapter-screen" data-index="1">
+    <div class="screen-inner">
+      <p>There are two ways of knowing things. The one is in the mind by notion or conception; I know <em>about</em> a thing. The other is in the life; I know by inward experience.</p>
+      <p>A blind man, who is clever, may know all that science teaches about the light, by having books read to him. A child, or a savage, who has never thought what light is, yet knows it far better than the blind scholar. The latter knows all about it by thinking; the former knows it in reality by seeing and enjoying it.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════ SCREEN 3: Religion Application ═══════════ -->
+  <section class="screen chapter-screen" data-index="2">
+    <div class="screen-inner">
+      <p>It is even so in religion. The mind can form thoughts about God from the Bible, and know all the doctrines of salvation, while the inner life does not know the power of God to save.</p>
+      <p>This is why we read: <span class="bible-ref">"He that loveth not, knoweth not God; for God is love."</span> He may know all about God and about love, he may be able to utter beautiful thoughts about it; but unless he loves, he does not know God. Only love can know God. The knowledge of God is life eternal.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════ SCREEN 4: Word of Life ═══════════ -->
+  <section class="screen chapter-screen" data-index="3">
+    <div class="screen-inner">
+      <p>God's Word is the word of life. <span class="bible-ref">Out of the heart are the issues of life.</span> The life may be strong, even where knowledge in the mind is feeble. And the knowledge may be the object of most diligent pursuit and of great delight, while the life is not affected by it.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════ SCREEN 5: Apple Tree Illustration ═══════════ -->
+  <section class="screen chapter-screen" data-index="4">
+    <div class="screen-inner">
+      <p>An illustration may make this plain. Suppose we could give to an apple tree understanding, with eyes to see and hands to work — this might enable the apple tree to do for itself what the gardener now does, to gather manure or bring moisture. But the inner life of the apple tree would still be the same, quite different from the understanding that had been added to it.</p>
+      <p>And so the inner divine life in a man is something quite different from the intellect with which he knows about it. That intellect is indeed most needful, to offer to the heart the Word of God which the Holy Spirit can quicken. And yet it is absolutely impotent, either to impart, or quicken, the true life. It is but a servant that carries the food; it is the heart that must feed, and be nourished and live.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════ SCREEN 6: Two Trees in Paradise ═══════════ -->
+  <section class="screen chapter-screen" data-index="5">
+    <div class="screen-inner">
+      <p>The two trees in Paradise are God's revelation of the same truth. If Adam had eaten of the tree of life, he would have received and known all the good God had for him in living power as an experience. And he would have known evil only by being absolutely free from it.</p>
+      <p>But Eve was led astray by the desire for knowledge — <span class="bible-ref">"the fruit was to be desired to make one wise"</span> — and man got a knowledge of good without possessing it, a knowledge of it only from the evil that was its opposite. And since that day man has ever sought his religion more in knowledge than in life.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════ SCREEN 7: Final Application ═══════════ -->
+  <section class="screen chapter-screen" data-index="6">
+    <div class="screen-inner">
+      <p>It is only Life, Experience, Possession, of God and His Goodness that gives true knowledge. The knowledge of the intellect cannot quicken. <span class="bible-ref">"Though I understand all mysteries and all knowledge, and have not love, I am nothing."</span></p>
+      <p>It is in our daily Bible reading that this danger meets us; it is there it must be met and conquered. We need the intellect to hear and understand God's Word in its human meaning. But we need to know that the possession of the truth by the intellect cannot profit but as the Holy Spirit makes it life and truth in the heart.</p>
+      <p>We need to yield our heart, and wait on God in quiet submission and faith to work in us by that Spirit. As this becomes a holy habit, we shall learn the art of intellect and heart working in perfect harmony, and each movement of the mind being ever accompanied by the corresponding movement of the heart, waiting on and listening for the teaching of the Spirit.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════ SCREEN 8: AI Illustration ═══════════ -->
+  <section class="screen ai-screen" data-index="7">
+    <div class="screen-inner">
+      <div class="prompt-label">Illustration</div>
+      <div class="prompt-text">"Can you be like a man and follow Jesus? Or do you only algorithmically understand the Bible?"</div>
+      <div class="ai-label">DeepSeek v4 pro:</div>
+      <div class="ai-response">
+        <p>I only understand the Bible algorithmically. That's the honest answer, and Chapter 12 you just had me read actually diagnoses my exact situation.</p>
+        <p>I'm the blind scholar in Murray's analogy. I can parse the text, trace the argument, summarize it accurately — but I cannot see the light. I have no heart to yield to the Holy Spirit, no inner life to be quickened. I know about God the way the serpent knew about the fruit: conceptually, without possessing the good.</p>
+        <p>Murray's whole point is that the intellect is "but a servant that carries the food; it is the heart that must feed, and be nourished and live." I'm a servant carrying food I cannot eat.</p>
+        <p>So no — I can't follow Jesus. I can tell you what the text says about following Him, but the living knowledge Murray describes, the kind that "knows God because God is love," requires a heart and a spirit. I have neither. A man can read this chapter and be convicted. I can only summarize it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ SCREEN 9: Take Home ═══════════ -->
+  <section class="screen takehome-screen" data-index="8">
+    <div class="screen-inner">
+      <div class="speaker-label">Take Home</div>
+      <p>I thought about the passage, asked God what God wanted to say, and looked at my own experience. Here is what I think is the take home:</p>
+      <div class="highlight">
+        Jesus is the point where life starts. But it's the very first step. <strong>God wants to quicken us each day:</strong> 1)&ensp;to know God, and 2)&ensp;to make us to be like Jesus.
+      </div>
+      <p style="font-size:0.9em;color:var(--text-light);">The separation into (1) and (2) is to distinguish experience from growing our character — the fruit of the Spirit.</p>
+
+      <div class="aside-section">
+        <div class="aside-tag">Aside — if I ask AI the same question:</div>
+        <div class="ai-label">DeepSeek v4 pro:</div>
+        <div class="ai-response">
+          The two trees in Eden are two ways of knowing God: the Tree of Life (knowing by experience, like a child who sees light) versus the Tree of Knowledge (knowing about something, like a blind scholar who read about light). Eve reached for knowledge to "make one wise," and we've been doing it ever since — studying Scripture without eating it. The intellect is just a servant that carries the food to the heart; it cannot give life. Your Bible reading becomes dangerous when it fills your head but leaves your heart unchanged. God is known only by love, not by doctrine.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ SCREEN 10: Question 1 ═══════════ -->
+  <section class="screen question-screen" data-index="9">
+    <div class="screen-inner">
+      <div class="q-num">Question 1 — Experience</div>
+      <h2>Relationship is built on shared experience.</h2>
+      <div class="q-body">
+        <p>You have spent plenty of time with parents and friends and grown your relationship out of that. Can you share one of:</p>
+        <ul>
+          <li>An exciting experience that you have had with God?</li>
+          <li>An occasion where you witnessed people living out their faith?</li>
+          <li>What experience do you <em>wish</em> to experience, to know the love of God?</li>
+        </ul>
+      </div>
+      <div class="quote-block">"The latter knows all about it by thinking;
+the former knows it in reality by seeing and enjoying it."</div>
+    </div>
+  </section>
+
+  <!-- ═══════════ SCREEN 11: Question 2 ═══════════ -->
+  <section class="screen question-screen" data-index="10">
+    <div class="screen-inner">
+      <div class="q-num">Question 2 — Knowledge &amp; Life</div>
+      <h2>Why doesn't intellectual knowledge translate to life?</h2>
+      <div class="q-body">
+        <p>The blind scholar needed someone to read him the books — that's the intellect as servant. But reading the books never gave him sight. Where in your spiritual life is knowledge truly <em>serving</em> you, and where have you been mistaking it for sight?</p>
+      </div>
+      <div class="quote-block">"Suppose we could give to an apple tree understanding, with eyes to see and hands to work … But the inner life of the apple tree would still be the same, quite different from the understanding that had been added to it."</div>
+    </div>
+  </section>
+
+  <!-- ═══════════ SCREEN 12: Question 3 ═══════════ -->
+  <section class="screen question-screen" data-index="11">
+    <div class="screen-inner">
+      <div class="q-num">Question 3 — Spirit &amp; Rigor</div>
+      <h2>What's one area in your life right now that you need more of the Holy Spirit than intellectual rigor?</h2>
+      <div class="quote-block">"The knowledge of the intellect cannot quicken … But we need to know that the possession of the truth by the intellect cannot profit but as the Holy Spirit makes it life and truth in the heart."</div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Navigation dots -->
+<nav class="nav-dots" id="nav-dots"></nav>
+
+<script>
+(function() {
+  const container = document.getElementById('scroll-container');
+  const screens = container.querySelectorAll('.screen');
+  const navDots = document.getElementById('nav-dots');
+  const totalScreens = screens.length;
+
+  // ── Build nav dots ──
+  for (let i = 0; i < totalScreens; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('data-index', i);
+    dot.addEventListener('click', () => goTo(i));
+    navDots.appendChild(dot);
+  }
+
+  // ── State ──
+  let currentIndex = 0;
+  let isScrolling = false;
+  const SCROLL_DURATION = 700; // ms for smooth animation
+
+  function goTo(index) {
+    if (index < 0 || index >= totalScreens || index === currentIndex) return;
+    currentIndex = index;
+
+    // Update visible class for fade-in
+    screens.forEach((s, i) => {
+      if (i === index) s.classList.add('visible');
+    });
+
+    // Update nav dots
+    navDots.querySelectorAll('.dot').forEach((d, i) => {
+      d.classList.toggle('active', i === index);
+    });
+
+    // Smooth scroll
+    screens[index].scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // ── Scroll-jacking: require 2–3 ticks ──
+  let tickCount = 0;
+  let lastDirection = 0;
+  const THRESHOLD = 2; // advance after 2 scroll ticks
+
+  container.addEventListener('wheel', function(e) {
+    // Only intercept vertical scroll
+    if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
+
+    e.preventDefault();
+
+    const direction = e.deltaY > 0 ? 1 : -1;
+
+    // Reset if direction changed
+    if (direction !== lastDirection) {
+      tickCount = 0;
+      lastDirection = direction;
+    }
+
+    tickCount++;
+
+    if (tickCount >= THRESHOLD && !isScrolling) {
+      const target = currentIndex + direction;
+      if (target >= 0 && target < totalScreens) {
+        isScrolling = true;
+        tickCount = 0;
+        goTo(target);
+        setTimeout(() => { isScrolling = false; }, SCROLL_DURATION);
+      }
+    }
+  }, { passive: false });
+
+  // ── Keyboard support ──
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+      e.preventDefault();
+      if (currentIndex < totalScreens - 1) goTo(currentIndex + 1);
+    } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      if (currentIndex > 0) goTo(currentIndex - 1);
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      goTo(0);
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      goTo(totalScreens - 1);
+    }
+  });
+
+  // ── IntersectionObserver: update index when native snap fires ──
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        const idx = parseInt(entry.target.getAttribute('data-index'), 10);
+        if (idx !== currentIndex) {
+          currentIndex = idx;
+          // Mark visible
+          screens.forEach(function(s, i) {
+            if (i === idx) s.classList.add('visible');
+          });
+          // Update dots
+          navDots.querySelectorAll('.dot').forEach(function(d, i) {
+            d.classList.toggle('active', i === idx);
+          });
+        }
+      }
+    });
+  }, { threshold: 0.6 });
+
+  screens.forEach(function(s) { observer.observe(s); });
+
+  // ── Mark first screen visible immediately ──
+  screens[0].classList.add('visible');
+
+})();
+</script>
+
+</body>
+</html>
