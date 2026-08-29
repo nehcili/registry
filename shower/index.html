@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chen Baby Shower</title>
+  <meta name="description" content="Chen baby shower — invite, games, and registry, all in one place.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <h1>Chen Baby Shower</h1>
+    <p class="subtitle" id="event-sub">Saturday, September 12 · 11:30 AM – 2:30 PM</p>
+    <p class="subtitle">Newark Christian Fellowship</p>
+    <div class="heart-divider">♡ ♡ ♡</div>
+  </header>
+
+  <div class="page">
+    <div class="card-grid" id="card-grid">
+      <a class="shower-card" href="invite/">
+        <div class="icon">💌</div>
+        <div class="label">Invite</div>
+        <div class="hint">View or save the invite with the registry QR code.</div>
+        <div class="arrow">Open →</div>
+      </a>
+      <a class="shower-card" href="prompt-vote/">
+        <div class="icon">🎨</div>
+        <div class="label">Prompt / Vote</div>
+        <div class="hint">Submit AI-image prompts and vote on your favorites.</div>
+        <div class="arrow">Open →</div>
+      </a>
+      <a class="shower-card" href="bingo/">
+        <div class="icon">🎯</div>
+        <div class="label">Bingo Card</div>
+        <div class="hint">Printable "find someone who" card.</div>
+        <div class="arrow">Open →</div>
+      </a>
+      <a class="shower-card" href="games/">
+        <div class="icon">🎲</div>
+        <div class="label">Games</div>
+        <div class="hint">How to play the shower games.</div>
+        <div class="arrow">Open →</div>
+      </a>
+      <a class="shower-card" id="registry-card" href="#" target="_blank" rel="noopener">
+        <div class="icon">🎁</div>
+        <div class="label">Registry</div>
+        <div class="hint">Amazon baby registry.</div>
+        <div class="arrow">Open ↗</div>
+      </a>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script>
+    const cfg = window.SITE_CONFIG || {};
+    const rc = document.getElementById('registry-card');
+    if (rc && cfg.registryUrl) rc.href = cfg.registryUrl;
+    const sub = document.getElementById('event-sub');
+    if (sub && cfg.eventDate) sub.textContent = cfg.eventDate + ' · ' + cfg.eventTime;
+    if (cfg.plannerEnabled) {
+      const a = document.createElement('a');
+      a.className = 'shower-card';
+      a.href = 'planner.html';
+      a.innerHTML = '<div class="icon">🗂️</div><div class="label">Planner</div>' +
+        '<div class="hint">Budget, run-up checklist &amp; kitchen plan.</div><div class="arrow">Open →</div>';
+      document.getElementById('card-grid').appendChild(a);
+    }
+  </script>
+</body>
+</html>

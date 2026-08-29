@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prompt / Vote — Chen Baby Shower</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body data-page="submit">
+  <div class="page">
+    <a class="back-link" href="../">← Back to shower</a>
+
+    <header class="site-header" style="padding:24px 0 12px">
+      <h1 style="font-size:1.6rem">Prompt / Vote 🎨</h1>
+      <p class="subtitle">Submit an AI-image prompt, then ♥ your favorites.</p>
+    </header>
+
+    <form id="prompt-form" class="pv-form">
+      <label for="prompt-input">Your prompt</label>
+      <textarea id="prompt-input" placeholder='e.g. "the baby at age 5, skateboarding"'></textarea>
+      <div class="pv-examples">
+        Ideas:
+        <button type="button" data-ex="the baby at age 10 winning the Olympics">age 10 — Olympics</button>
+        <button type="button" data-ex="the baby's future husband as a toddler">future husband, toddler</button>
+      </div>
+      <button class="btn btn-pledge" type="submit" style="margin-left:0">✨ Submit</button>
+    </form>
+
+    <div id="list"></div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

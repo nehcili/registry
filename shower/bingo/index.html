@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bingo Card — Chen Baby Shower</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <div class="page">
+    <a class="back-link" href="../">← Back to shower</a>
+
+    <div class="bingo-wrap">
+      <div class="bingo-title">Find Someone Who…</div>
+      <div class="bingo-sub">Mingle, ask around, collect an initial in each square. First to a full row (or the whole card) wins!</div>
+      <div class="bingo-grid" id="grid"></div>
+    </div>
+
+    <div class="no-print" style="text-align:center;margin-top:20px">
+      <button class="btn btn-pledge" onclick="window.print()">🖨️ Print card</button>
+    </div>
+  </div>
+
+  <script>
+    const PROMPTS = [
+      "shares your birth month",
+      "has 3 or more kids",
+      "has known the parents for 10+ years",
+      "is wearing something blue",
+      "has a twin in their family",
+      "can name a baby animal starting with “B”",
+      "is an only child",
+      "has a pet",
+      "is left-handed",
+      "speaks more than one language",
+      "traveled over 2 hours to be here",
+      "is the youngest sibling",
+      "has a September birthday",
+      "has changed a diaper before",
+      "is a middle child",
+      "met the parents before they were together",
+      "has the same first initial as a parent",
+      "works in healthcare or teaching",
+      "can whistle a tune",
+      "is the oldest sibling",
+      "has lived in another country",
+      "can tell a good joke",
+      "has met a newborn this year",
+      "knows a lullaby by heart"
+    ];
+    const grid = document.getElementById('grid');
+    const center = 12; // 5x5 = 25 cells, center at index 12
+    for (let i = 0; i < 25; i++) {
+      const cell = document.createElement('div');
+      if (i === center) {
+        cell.className = 'bingo-cell free';
+        cell.textContent = 'FREE';
+      } else {
+        cell.className = 'bingo-cell';
+        cell.textContent = PROMPTS[i < center ? i : i - 1];
+      }
+      grid.appendChild(cell);
+    }
+  </script>
+</body>
+</html>

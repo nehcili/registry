@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planner — Chen Baby Shower</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div id="gate-overlay" class="gate-overlay">
+    <div class="gate-box">
+      <div class="gate-icon">🔒</div>
+      <h2>Planner</h2>
+      <p>Enter the password to continue</p>
+      <input type="password" id="gate-password" class="gate-input" placeholder="Password" autocomplete="off">
+      <button id="gate-btn" class="gate-btn">Unlock →</button>
+    </div>
+  </div>
+
+  <div class="page">
+    <a class="back-link" href="./">← Back to shower</a>
+    <header class="site-header" style="padding:24px 0 12px">
+      <h1 style="font-size:1.6rem">Planner 🗂️</h1>
+      <p class="subtitle">Budget, run-up checklist &amp; kitchen plan</p>
+    </header>
+
+    <div id="planner-content">
+      <section class="section">
+        <div class="section-head"><h2>Budget</h2><span class="section-count">~$1,490</span></div>
+        <div class="card">
+          <table style="width:100%;border-collapse:collapse;font-size:0.92rem">
+            <tr><td style="padding:6px 0">Costco (pizza, ribs, alfredo, salmon, sides, cake, drinks)</td><td style="text-align:right">~$480</td></tr>
+            <tr><td style="padding:6px 0">Chinese tray takeout (80)</td><td style="text-align:right">~$658</td></tr>
+            <tr><td style="padding:6px 0">Decor</td><td style="text-align:right">~$96</td></tr>
+            <tr><td style="padding:6px 0">Games + prizes</td><td style="text-align:right">~$54</td></tr>
+            <tr><td style="padding:6px 0">Cleaners</td><td style="text-align:right">~$200</td></tr>
+            <tr><td style="padding:6px 0;border-top:1px solid var(--border);font-weight:700">Total</td><td style="text-align:right;border-top:1px solid var(--border);font-weight:700">~$1,490</td></tr>
+          </table>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><h2>Run-up checklist</h2></div>
+        <div class="card">
+          <ul style="padding-left:18px;font-size:0.9rem;line-height:1.9">
+            <li><strong>This week:</strong> lock the venue + wifi/cleaning rules; send the invite.</li>
+            <li><strong>By Sept 5:</strong> order Chinese trays + Costco list; confirm Friend A (emcee) &amp; Friend B (tech).</li>
+            <li><strong>Sept 6–10:</strong> print bingo cards &amp; signs; book cleaners; prep the AI finale (music + template).</li>
+            <li><strong>Sept 11:</strong> buy decor + game supplies.</li>
+            <li><strong>Sept 12:</strong> day-of — follow the program.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head"><h2>Kitchen heat plan</h2></div>
+        <div class="card">
+          <table style="width:100%;border-collapse:collapse;font-size:0.9rem">
+            <tr><td style="padding:4px 0;font-weight:700;width:70px">11:00</td><td>Preheat oven to 375°F; season/pat salmon on sheet pans.</td></tr>
+            <tr><td style="padding:4px 0;font-weight:700">11:15</td><td>Bake salmon ~15–18 min until flaky; cover with foil.</td></tr>
+            <tr><td style="padding:4px 0;font-weight:700">11:20</td><td>Warm ribs (300°F); heat chicken alfredo through.</td></tr>
+            <tr><td style="padding:4px 0;font-weight:700">11:45</td><td>Pick up pizzas hot.</td></tr>
+            <tr><td style="padding:4px 0;font-weight:700">12:00</td><td>Everything out on the buffet.</td></tr>
+          </table>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script src="config.js"></script>
+  <script>
+    const cfg = window.SITE_CONFIG || {};
+    const gate = document.getElementById('gate-overlay');
+    const content = document.getElementById('planner-content');
+
+    async function sha256(str) {
+      const d = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+      return Array.from(new Uint8Array(d)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function init() {
+      if (!cfg.plannerEnabled) {
+        gate.classList.add('hidden');
+        content.innerHTML = '<div class="card"><p>Planner section is off. Set <code>plannerEnabled: true</code> in <code>config.js</code> (and commit) to enable it.</p></div>';
+        return;
+      }
+      if (!cfg.plannerPassword) { gate.classList.add('hidden'); return; }
+
+      const expected = await sha256(cfg.plannerPassword);
+      const input = document.getElementById('gate-password');
+      const btn = document.getElementById('gate-btn');
+      const check = async () => {
+        const h = await sha256(input.value);
+        if (h === expected) { gate.classList.add('hidden'); }
+        else { input.value = ''; input.classList.add('error'); setTimeout(() => input.classList.remove('error'), 350); }
+      };
+      btn.addEventListener('click', check);
+      input.addEventListener('keydown', e => { if (e.key === 'Enter') check(); });
+    }
+
+    init();
+  </script>
+</body>
+</html>
