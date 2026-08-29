@@ -4,7 +4,7 @@
 // To put planner.html behind the same SHA-256 gate as internal.html,
 // set plannerPassword to a non-empty string.
 window.SITE_CONFIG = {
-  plannerEnabled: false,    // ← flip to true + commit → Planner card appears
+  plannerEnabled: true,     // ← flip to false + commit → hide the Planner card
   plannerPassword: null,    // ← set to "your-password" to gate planner.html
 
   // Event details (shared across the site)
@@ -12,6 +12,7 @@ window.SITE_CONFIG = {
   eventTime: "11:30 AM – 2:30 PM",
   locationName: "Newark Christian Fellowship",
   locationUrl: "https://maps.app.goo.gl/CuxhKFSx17oPWLMw9",
+  address: "101 Heller Pkwy, Newark, NJ 07104",
   hosts: "Li & Grace",
   registryUrl: "https://www.amazon.com/baby-reg/1LC8YQRLB1DA5",
 };

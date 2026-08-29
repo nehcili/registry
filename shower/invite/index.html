@@ -21,7 +21,8 @@
       <div style="font-size:1.15rem;font-weight:700" id="inv-date">Saturday, September 12</div>
       <div style="color:var(--muted)" id="inv-time">11:30 AM – 2:30 PM</div>
       <div style="color:var(--muted)" id="inv-loc">Newark Christian Fellowship</div>
-      <div style="margin:10px 0 0;color:var(--muted)">Casual lunch + cake</div>
+      <div style="color:var(--muted)" id="inv-addr">101 Heller Pkwy, Newark, NJ 07104</div>
+      <div style="margin:10px 0 0;color:var(--muted)">Casual lunch + cake + family games</div>
       <div style="color:var(--muted)">Please RSVP to <span id="inv-hosts" style="color:var(--text);font-weight:700">Li &amp; Grace</span></div>
       <img class="qr" id="qr-img" src="qr.png" alt="Registry QR code">
       <div style="font-size:0.85rem;color:var(--muted)">Scan for our registry</div>
@@ -40,6 +41,7 @@
     if (cfg.eventDate) document.getElementById('inv-date').textContent = cfg.eventDate;
     if (cfg.eventTime) document.getElementById('inv-time').textContent = cfg.eventTime;
     if (cfg.locationName) document.getElementById('inv-loc').textContent = cfg.locationName;
+    if (cfg.address) document.getElementById('inv-addr').textContent = cfg.address;
     if (cfg.hosts) document.getElementById('inv-hosts').textContent = cfg.hosts;
     const regLink = document.getElementById('reg-link');
     if (regLink && cfg.registryUrl) regLink.href = cfg.registryUrl;
@@ -62,18 +64,21 @@
       x.fillText('♡ ♡ ♡', W / 2, 385);
       // details
       x.fillStyle = '#3D3D3D'; x.font = '700 46px Nunito, sans-serif';
-      x.fillText(cfg.eventDate || '', W / 2, 475);
+      x.fillText(cfg.eventDate || '', W / 2, 455);
       x.fillStyle = '#8A8A8A'; x.font = '400 40px Nunito, sans-serif';
-      x.fillText(cfg.eventTime || '', W / 2, 535);
-      x.fillText(cfg.locationName || '', W / 2, 590);
-      x.fillText('Casual lunch + cake · RSVP to ' + (cfg.hosts || ''), W / 2, 640);
+      x.fillText(cfg.eventTime || '', W / 2, 512);
+      x.fillText(cfg.locationName || '', W / 2, 564);
+      x.fillText(cfg.address || '', W / 2, 616);
+      x.fillText('Casual lunch + cake + family games', W / 2, 668);
+      x.fillStyle = '#3D3D3D'; x.font = '700 40px Nunito, sans-serif';
+      x.fillText('RSVP to ' + (cfg.hosts || ''), W / 2, 712);
       // QR
       const qr = document.getElementById('qr-img');
-      x.drawImage(qr, W / 2 - 200, 705, 400, 400);
+      x.drawImage(qr, W / 2 - 200, 745, 400, 400);
       x.fillStyle = '#3D3D3D'; x.font = '700 38px Nunito, sans-serif';
-      x.fillText('Scan for our registry', W / 2, 1150);
+      x.fillText('Scan for our registry', W / 2, 1180);
       x.fillStyle = '#8A8A8A'; x.font = '400 28px Nunito, sans-serif';
-      x.fillText((cfg.registryUrl || '').replace('https://', ''), W / 2, 1200);
+      x.fillText((cfg.registryUrl || '').replace('https://', ''), W / 2, 1225);
       // download
       const a = document.createElement('a');
       a.download = 'baby-shower-invite.png';
